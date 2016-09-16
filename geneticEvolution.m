@@ -1,9 +1,30 @@
+%
+% geneticEvolution: Algoritmo genético
+%
+% Parâmetros e variáveis
+% data - 
+% n_chroms - 
+% n_gen - 
+% n_created - 
+% mut_rate - 
+% s -
+% best_chrom - 
+% all - chroms - 
+% fit_max - 
+% fit_min - 
+% fit_avg - 
+% chroms - 
+% new_chroms - 
+% fit - 
+% pos - 
+%
+
 function [ final_chroms, best_chrom ] = geneticEvolution( data, n_chroms, n_gen )
 %GENETICSELECTION Summary of this function goes here
 %   Detailed explanation goes here
 
     n_created = 2*n_chroms;
-    mut_rate = 0.4;
+    mut_rate = 0.05;            %taxa de mutação normalmente é baixa
     
     s = size(data,1);
     best_chrom = zeros(1,s);
