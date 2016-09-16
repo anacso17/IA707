@@ -1,4 +1,4 @@
-function [ winners ] = selectionTournament( chroms, fitness, n_winners )
+function [ winners ] = selectionTournament( chroms, fitness, n_winners, inds_per_tour )
 %SELECTIONTOURNAMENT Summary of this function goes here
 %   Detailed explanation goes here
     
@@ -7,14 +7,10 @@ function [ winners ] = selectionTournament( chroms, fitness, n_winners )
     winners = zeros(n_winners, s);
 
     for i = 1:n_winners
-        p_chrom1 = randi(n_chroms,1);
-        p_chrom2 = randi(n_chroms,1);
+        rand_pos = randi(n_chroms,inds_per_tour,1);          
         
-        if fitness(p_chrom1) >= fitness(p_chrom1)
-            winners(i,:) = chroms(p_chrom1,:);
-        else
-            winners(i,:) = chroms(p_chrom2,:);
-        end
+        [~, pos_max] = max(fitness(rand_pos));
+        winners(i,:) = chroms(rand_pos(pos_max),:);
     end
 end
 
