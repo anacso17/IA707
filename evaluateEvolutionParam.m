@@ -21,15 +21,15 @@ function [ results ] = evaluateEvolutionParam( data )
             for rep = 1:n_reps
                 [~, b] = geneticEvolution(data, ps, gens);
                 best_fit = evaluateFitness(b,data);
-                sum_best_fit = sum_best_fit+best_fit;
-                if best_fit == 0.5
-                    fprintf('*')
-                else
-                    fprintf('|')
-                end
+                sum_best_fit = sum_best_fit+(1/best_fit-1);
+%                 if best_fit == 0.5
+%                     fprintf('*')
+%                 else
+%                     fprintf('|')
+%                 end
             end
-            results(i,j) = sum_best_fit/max_gens; 
-            fprintf('\nindv: %d; gens: %d; avg_best: %e\n', ps, gens, results(i,j))
+            results(i,j) = sum_best_fit/n_reps; 
+            fprintf('\nindv: %d; gens: %d; avg_best: %f\n', ps, gens, results(i,j))
         end
     end
 end
