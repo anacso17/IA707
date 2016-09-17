@@ -2,12 +2,12 @@ function [ results ] = evaluateEvolutionParam( data )
 %EVALUATEEVOLUTIONPARAM Summary of this function goes here
 %   Detailed explanation goes here
 
-    n_reps = 30;
-    max_ps = 100;
-    max_gens = 2000;
+    n_reps = 20;
+    max_ps = 200;
+    max_gens = 200;
     
-    ps_vals = 20:20:max_ps;
-    gens_vals = 50:100:max_gens;
+    ps_vals = 200:20:max_ps;
+    gens_vals = 200:50:max_gens;
 
     results = zeros(size(ps_vals,1), size(gens_vals,1));
     
@@ -20,10 +20,16 @@ function [ results ] = evaluateEvolutionParam( data )
             sum_best_fit = 0;
             for rep = 1:n_reps
                 [~, b] = geneticEvolution(data, ps, gens);
-                sum_best_fit = sum_best_fit+evaluateFitness(b,data);
+                best_fit = evaluateFitness(b,data);
+                sum_best_fit = sum_best_fit+best_fit;
+                if best_fit == 0.5
+                    fprintf('*')
+                else
+                    fprintf('|')
+                end
             end
             results(i,j) = sum_best_fit/max_gens; 
-            fprintf('indv: %d; gens: %d; avg_best: %e\n', ps, gens, results(i,j))
+            fprintf('\nindv: %d; gens: %d; avg_best: %e\n', ps, gens, results(i,j))
         end
     end
 end
