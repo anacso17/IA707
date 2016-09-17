@@ -23,14 +23,13 @@ function [ final_chroms, best_chrom ] = geneticEvolution( data, n_chroms, n_gen 
 %GENETICSELECTION Summary of this function goes here
 %   Detailed explanation goes here
 
-    n_created = 4*n_chroms;
+    n_created =5*n_chroms;
     mut_rate = 0.05;            %taxa de mutação normalmente é baixa
     
     s = size(data,1);
     best_chrom = zeros(1,s);
     
     chroms = randi([0,1], n_chroms, s);
-    % all_chroms = zeros(n_created+n_chroms, s);    
     
     fit_max = zeros(n_gen, 1);
     fit_min = zeros(n_gen, 1);
@@ -45,7 +44,7 @@ function [ final_chroms, best_chrom ] = geneticEvolution( data, n_chroms, n_gen 
         
         fit = evaluateFitness(all_chroms, data);
         
-        chroms = selectionTournament(all_chroms, fit, n_chroms-1, 3);
+        chroms = selectionTournament(all_chroms, fit, n_chroms-1, 2);
         
         [fit_max(i), pos] = max(fit);
         % preserva o melhor individuo
@@ -57,11 +56,20 @@ function [ final_chroms, best_chrom ] = geneticEvolution( data, n_chroms, n_gen 
     end
 
     final_chroms = chroms;
+   
+    best_fit = evaluateFitness(best_chrom,data);
     
-    plot(fit_max, 'b');
+    if (best_fit == 0.5 || best_fit == 0)
+        fprintf('*')
+    else
+        fprintf('|')
+    end
+    fprintf('%d', 1/best_fit-1);
+    
+    plot(log10(fit_max), 'b');
     hold on;
-    plot(fit_min, 'k');
-    plot(fit_avg, 'r');
+    plot(log10(fit_min), 'k');
+    plot(log10(fit_avg), 'r');
     hold off;
         
 end
