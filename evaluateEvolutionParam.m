@@ -1,6 +1,10 @@
+%
+% evaluateEvolutionParam
+% função para testes de diferentes parâmetros (população e número de 
+% gerações) para o algoritmo
+%
+
 function [ results ] = evaluateEvolutionParam( data )
-%EVALUATEEVOLUTIONPARAM Summary of this function goes here
-%   Detailed explanation goes here
 
     n_reps = 20;
     max_ps = 200;
@@ -22,11 +26,11 @@ function [ results ] = evaluateEvolutionParam( data )
                 [~, b] = geneticEvolution(data, ps, gens);
                 best_fit = evaluateFitness(b,data);
                 sum_best_fit = sum_best_fit+(1/best_fit-1);
-%                 if best_fit == 0.5
-%                     fprintf('*')
-%                 else
-%                     fprintf('|')
-%                 end
+                 if best_fit == 0.5
+                     fprintf('*')
+                 else
+                     fprintf('|')
+                 end
             end
             results(i,j) = sum_best_fit/n_reps; 
             fprintf('\nindv: %d; gens: %d; avg_best: %f\n', ps, gens, results(i,j))
