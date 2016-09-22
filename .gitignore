@@ -45,6 +45,4 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
-evaluateEvolutionParam.asv
-selectionTournament.asv
-geneticEvolution.asv
+*.asv
