@@ -42,7 +42,7 @@ function [ final_chroms, best_chrom ] = geneticEvolutionLS( data, n_chroms, n_ge
         best_chrom = all_chroms(pos,:);
         % faz busca local, se necessário
         if mod(i,n_gen_ls) == 0
-            best_chrom = localSeach(best_chrom, data);
+            best_chrom = localSearch(best_chrom, data);
         end
         chroms(n_chroms, :) = best_chrom;
         

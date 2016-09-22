@@ -6,11 +6,10 @@ function [ m_chrom ] = localSearch( chrom, data )
     for i = 1:chrom_size
         chrom(i) = 1 - chrom(i);    % muda bit
         
-        if evaluateFitness(chrom) > fit
-            m_chrom = chrom;
-            return;
+        if evaluateFitness(chrom, data) > fit
+            break
         else
-            chrom = 1 - chrom(i);   % reverte mudança
+            chrom(i) = 1 - chrom(i);   % reverte mudança
         end
     end
     
