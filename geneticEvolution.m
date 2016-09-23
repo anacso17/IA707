@@ -19,7 +19,7 @@ function [ final_chroms, best_chrom ] = geneticEvolution( data, n_chroms, n_gen 
     s = size(data,1);           % tamanho do cromossomo
     best_chrom = zeros(1,s);
     
-    chroms = randi([0,1], n_chroms, s); % gera randomicamente cromossomos binários
+    chroms = geraPopInicialDes(n_chroms, s); % gera randomicamente cromossomos binários
     
     % valores para montagem do gráfico de máximo, mínimo e médio fitness
     fit_max = zeros(n_gen, 1);  
