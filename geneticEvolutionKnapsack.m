@@ -2,7 +2,7 @@
 % geneticEvolution: Algoritmo genético
 %
 % Entrada:
-% data - vetor com os dados de entrada para serem divididos em grupos
+% v - vetor com os dados de entrada para serem divididos em grupos
 % n_chroms - número de cromossomos que será utilizado
 % n_gen - número de gerações que o algoritmo irá rodar
 %
@@ -11,12 +11,12 @@
 % best_chrom - melhor chromossomo encontrado pelo algorimo
 %
 
-function [ final_chroms, best_chrom ] = geneticEvolution( data, n_chroms, n_gen )
+function [ best_chrom ] = geneticEvolutionKnapsack( v, p, c, opt, n_chroms, n_gen )
 
     n_created =10*n_chroms;     % número de novos pares de filhos que serão gerados
     mut_rate = 0.1;             % taxa de mutação
     
-    s = size(data,1);           % tamanho do cromossomo
+    s = size(v,1);           % tamanho do cromossomo
     best_chrom = zeros(1,s);
     
     chroms = geraPopInicialDes(n_chroms, s); % gera randomicamente cromossomos binários
@@ -33,7 +33,7 @@ function [ final_chroms, best_chrom ] = geneticEvolution( data, n_chroms, n_gen 
         
         % faz a seleção incluindo pais e filhos
         all_chroms = [chroms; new_chroms];
-        fit = evaluateFitness(all_chroms, data);
+        fit = evaluateFitnessKnapsack(all_chroms, p, v, c, opt);
         chroms = selectionTournament(all_chroms, fit, n_chroms-1, 2);
         
         % preserva o melhor individuo
@@ -46,20 +46,20 @@ function [ final_chroms, best_chrom ] = geneticEvolution( data, n_chroms, n_gen 
     end
 
     
-    final_chroms = chroms;
-    best_fit = evaluateFitness(best_chrom,data);
+    %final_chroms = chroms;
+    best_fit = evaluateFitnessKnapsack(best_chrom, p, v, c, opt);
     
 %     if (best_fit == 0.5 || best_fit == 0)
 %         fprintf('*')
 %     else
 %         fprintf('|')
 %     end
-    fprintf('Best difference found: %d', 1/best_fit-1);
+    fprintf('Best fitness found: %d', best_fit);
     
-    plot(log10(fit_max), 'b');
+    plot(fit_max, 'b');
     hold on;
-    plot(log10(fit_min), 'k');
-    plot(log10(fit_avg), 'r');
+    plot(fit_min, 'k');
+    plot(fit_avg, 'r');
     hold off;
       
 end
