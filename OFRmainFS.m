@@ -1,4 +1,4 @@
-function [ final_chroms, best_chrom ] = OFRmain( n_chroms, n_gen )
+function [ final_chroms, best_chrom ] = OFRmainFS( n_chroms, n_gen, thetaS )
     
     A = -1;
     B = 2;
@@ -11,7 +11,6 @@ function [ final_chroms, best_chrom ] = OFRmain( n_chroms, n_gen )
     
     % gera randomicamente cromossomos com valores entre A e B
     chroms = A+(B-A)*rand(n_chroms, s); 
-    draw3DView(chroms, '*b');
     
     % valores para montagem do gráfico de máximo, mínimo e médio fitness
     fit_max = zeros(n_gen, 1);  
@@ -25,7 +24,16 @@ function [ final_chroms, best_chrom ] = OFRmain( n_chroms, n_gen )
         
         % faz a seleção incluindo pais e filhos
         all_chroms = [chroms; new_chroms];
-        fit = OFRevaluateFitness(all_chroms);
+
+        if mod(i, 10) == 0
+            figure
+            draw3DView(chroms, '*b');
+            hold on
+            draw3DView(new_chroms, '*r');
+            hold off
+        end
+        
+        fit = OFRevaluateFitnessFS(all_chroms, thetaS, 1);
         chroms = selectionTournament(all_chroms, fit, n_chroms-1, 2);
         
         [fit_max(i), pos] = max(fit);
@@ -37,11 +45,7 @@ function [ final_chroms, best_chrom ] = OFRmain( n_chroms, n_gen )
         fit_min(i) = min(fit);
         fit_avg(i) = mean(fit);
         
-        if mod(i, 10) == 0
-            draw3DView(chroms, '*b');
-        end
     end
-
     
     final_chroms = chroms;
     best_fit = OFRevaluateFitness(best_chrom);
@@ -60,6 +64,7 @@ function [ final_chroms, best_chrom ] = OFRmain( n_chroms, n_gen )
     plot(fit_avg, 'r');
     hold off;
     
+    figure
     draw3DView(final_chroms, '*k');
 end
 
