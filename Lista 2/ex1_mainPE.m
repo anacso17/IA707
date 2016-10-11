@@ -27,4 +27,13 @@ for i = 1:ngen
     dist_avg(i) = mean(dist);
 end
 
+    figure
+    plot((dist_min), 'b','LineWidth',2);
+    hold on;
+    plot((dist_avg), 'r','LineWidth',2);
+    hold off;
+    
+    grid
+    xlabel('Gerações','FontSize',12,'FontWeight','bold');
+    ylabel('Distância','FontSize',12,'FontWeight','bold');
 end
