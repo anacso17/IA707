@@ -1,3 +1,4 @@
+% Faz crossover n_cross vezes
 function [ new_Cs ] = ex1_reconbination( Cs, n_cross )
 
     s = size(Cs, 1);

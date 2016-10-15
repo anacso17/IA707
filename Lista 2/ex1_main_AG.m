@@ -1,65 +1,62 @@
-function [ output_args ] = ex1_main_AG( data, n_C )
+function [ final_Cs, best_Cs ] = ex1_main_AG( cidades, n_Cs, n_gen )
+
+    s = size(cidades,1);
+    n_created = n_Cs/2;    % número de novos filhos que serão gerados
+    mut_rate = 0.1;        % taxa de mutação
 
     % Inicializa primeira geração
+    Cs = zeros(n_Cs, s);
+    for i = 1:n_Cs
+        Cs(i,:) = randperm(s);
+    end
+    
+    Dist_matrix = ex1_calcDistMatrix(cidades);
+    
+    % valores para montagem do gráfico de distância mínima e média
+    dist_min = zeros(n_gen, 1);
+    dist_avg = zeros(n_gen, 1);
 
-    n_created =n_chroms;     % número de novos filhos que serão gerados
-    mut_rate = 0.1;             % taxa de mutação
-    s = 2;           % tamanho do cromossomo
-    
-    best_chrom = zeros(1,s);
-    
-    % gera randomicamente cromossomos com valores entre A e B
-    chroms = A+(B-A)*rand(n_chroms, s); 
-    draw3DView(chroms, '*b');
-    
-    % valores para montagem do gráfico de máximo, mínimo e médio fitness
-    fit_max = zeros(n_gen, 1);  
-    fit_min = zeros(n_gen, 1);
-    fit_avg = zeros(n_gen, 1);
+    best_Cs = zeros(1,s);
     
     for i = 1:n_gen
         % crossover para criar novos filhos e mutação
-        new_chroms = OFRcrossover(chroms, n_created);
-        new_chroms = OFRmutate(new_chroms, mut_rate, i, A, B, n_gen, 5);
+        new_Cs = ex1_reconbination(Cs, n_created); 
+        new_Cs = ex1_mutation(new_Cs, mut_rate);
         
         % faz a seleção incluindo pais e filhos
-        all_chroms = [chroms; new_chroms];
-        fit = OFRevaluateFitness(all_chroms);
-        chroms = selectionTournament(all_chroms, fit, n_chroms-1, 2);
+        all_Cs = [Cs; new_Cs];
+        dist = ex1_calcFitness(all_Cs,Dist_matrix);
+        Cs = selectionTournament(all_Cs, 1./(1+dist), n_Cs-1, 2);
         
-        [fit_max(i), pos] = max(fit);
-        best_chrom = all_chroms(pos,:);
+        [dist_min(i), pos] = min(dist);
+        best_Cs = all_Cs(pos,:);
         
         % preserva o melhor individuo
-        chroms(n_chroms, :) = best_chrom;
+        Cs(n_Cs, :) = best_Cs;
         
-        fit_min(i) = min(fit);
-        fit_avg(i) = mean(fit);
+        dist_avg(i) = mean(dist);
         
-        if mod(i, 10) == 0
-            draw3DView(chroms, '*b');
-        end
     end
 
     
-    final_chroms = chroms;
-    best_fit = OFRevaluateFitness(best_chrom);
+    final_Cs = Cs;
+    best_dist = ex1_calcPathDist(best_Cs,Dist_matrix);
     
 %     if (best_fit == 0.5 || best_fit == 0)
 %         fprintf('*')
 %     else
 %         fprintf('|')
 %     end
-    fprintf('Best value found: %f\n', best_fit);
+    fprintf('Best value found: %f\n', best_dist);
     
-    figure
-    plot(fit_max, 'b');
+    figure(1)
+    plot(dist_min, 'b');
     hold on;
-    plot(fit_min, 'k');
-    plot(fit_avg, 'r');
+    plot(dist_avg, 'r');
     hold off;
     
-    draw3DView(final_chroms, '*k');
-
+    figure(2)
+    ex1_printPath(cidades(best_Cs,:));
+    
 end
 

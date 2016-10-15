@@ -1,3 +1,4 @@
+% calcula o fitness para todos os dados de entrada
 function [ vet_fitness ] = ex1_calcFitness( Cs, Dist )
 
     s = size(Cs,1);

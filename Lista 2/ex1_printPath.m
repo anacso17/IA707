@@ -6,7 +6,7 @@ function ex1_printPath( data )
     hold on
     plot(data(:,1), data(:,2), '-k', 'LineWidth', 2);
     % linha ligando a cidade final à inicial
-    plot([data(tam,1),data(1,1)], [data(tam,2), data(1,2)], '-b', 'LineWidth', 2);
+    plot([data(tam,1),data(1,1)], [data(tam,2), data(1,2)], '-k', 'LineWidth', 2);
     grid on
     hold off
 

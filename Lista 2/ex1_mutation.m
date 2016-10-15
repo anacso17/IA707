@@ -1,3 +1,4 @@
+% faz a mutação de todos os individuos com taxa mut_rate
 function [ out_Cs ] = ex1_mutation( Cs, mut_rate )
 
     s = size(Cs,1);

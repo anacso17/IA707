@@ -1,3 +1,4 @@
+% calcula a distancia de um dado caminho
 function [ tot_dist ] = ex1_calcPathDist( C, Dist )
     
     dim = size(C, 2);
