@@ -1,4 +1,4 @@
- function  [ Cs ] = ex2_main( n_Cs, n_gen, lambda)
+ function  [ Cs ] = ex2_main2( n_Cs, n_gen, lambda)
 
     A = -1;
     B = 2;
@@ -18,7 +18,7 @@
     figure(1)
     graph = draw3DView(Cs, '*k');
 
-    fit = zeros(n_Cs+lambda);
+    fit = zeros(n_Cs+lambda,1);
     
     for i = 1:n_gen
         new_Cs = zeros(lambda, s);
@@ -39,24 +39,25 @@
         % junta o fitness de pais e filhos
         fit(n_Cs+1:end) = ex2_evaluateFitness(new_Cs);
         all_Cs = [Cs; new_Cs];
-        all_Om = [Omegas, new_Omegas];
-        all_Th = [Thetas, new_Thetas];
+        all_Om = [Omegas; new_Omegas];
+        all_Th = [Thetas; new_Thetas];
         
         selected_inds = selectionTournament_ind(all_Cs, fit, n_Cs-1, 2);
-        Cs = all_Cs(selected_inds,:);
-        Omegas = all_Om(selected_inds,:);
-        Thetas = all_Th(selected_inds);
+        Cs(1:n_Cs-1,:) = all_Cs(selected_inds,:);
+        Omegas(1:n_Cs-1,:) = all_Om(selected_inds,:);
+        Thetas(1:n_Cs-1) = all_Th(selected_inds);
         
         % dados para o grafico
         [fit_max(i), pos] = max(fit);
         fit_avg(i) = mean(fit);
         
-        fit(1:n_Cs) = fit(selected_inds); % fitness dos selecionados atualizado
+        fit(1:n_Cs-1) = fit(selected_inds); % fitness dos selecionados atualizado
         
         %salva melhor
         Cs(n_Cs,:) = all_Cs(pos);
         Omegas(n_Cs,:) = all_Om(pos);
         Thetas(n_Cs,:) = all_Th(pos);
+        fit(n_Cs) = fit(pos);
         
         set(graph, 'XData', Cs(:,1), 'YData', Cs(:,2));
         drawnow
