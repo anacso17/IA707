@@ -3,7 +3,7 @@
     A = -1;
     B = 2;
 
-    mut_rate = 0.6;         % taxa de mutação
+    mut_rate = 0.2;         % taxa de mutação
     s = 2;       			% tamanho do cromossomo
 
     % valores para montagem do gráfico de distância mínima e média
@@ -40,10 +40,12 @@
         Cs = new_Cs(selected_inds,:);
         Omegas = new_Omegas(selected_inds,:);
         Thetas = new_Thetas(selected_inds);
-
+        fit = fit(selected_inds);
+        
         % dados para o grafico
         fit_max(i) = max(fit);
         fit_avg(i) = mean(fit);
+        
         
         set(graph, 'XData', Cs(:,1), 'YData', Cs(:,2));
         drawnow
