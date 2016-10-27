@@ -39,7 +39,7 @@
         % fitness dos filhos
         fit = ex2_evaluateFitness(new_Cs);
         
-        selected_inds = selectionTournament_ind(new_Cs, fit, n_Cs-1, 2);
+        selected_inds = selction_determ_ind(new_Cs, fit, n_Cs-1);
         Cs(1:n_Cs-1,:) = new_Cs(selected_inds,:);
         Omegas(1:n_Cs-1,:) = new_Omegas(selected_inds,:);
         Thetas(1:n_Cs-1) = new_Thetas(selected_inds);

@@ -46,21 +46,21 @@
         all_Om = [Omegas; new_Omegas];
         all_Th = [Thetas; new_Thetas];
         
-        selected_inds = selectionTournament_ind(all_Cs, fit, n_Cs-1, 2);
-        Cs(1:n_Cs-1,:) = all_Cs(selected_inds,:);
-        Omegas(1:n_Cs-1,:) = all_Om(selected_inds,:);
-        Thetas(1:n_Cs-1) = all_Th(selected_inds);
+        selected_inds = selction_determ_ind(all_Cs, fit, n_Cs);
+        Cs(1:n_Cs,:) = all_Cs(selected_inds,:);
+        Omegas(1:n_Cs,:) = all_Om(selected_inds,:);
+        Thetas(1:n_Cs) = all_Th(selected_inds);
         
         % dados para o grafico
         [fit_max(i), pos] = max(fit);
         fit_avg(i) = mean(fit);
                 
         %salva melhor
-        Cs(n_Cs,:) = all_Cs(pos,:);
-        Omegas(n_Cs,:) = all_Om(pos,:);
-        Thetas(n_Cs) = all_Th(pos);
-        fit(n_Cs) = fit(pos);
-        fit(1:n_Cs-1) = fit(selected_inds); % fitness dos selecionados atualizado
+        %Cs(n_Cs,:) = all_Cs(pos,:);
+        %Omegas(n_Cs,:) = all_Om(pos,:);
+        %Thetas(n_Cs) = all_Th(pos);
+        %fit(n_Cs) = fit(pos);
+        fit(1:n_Cs) = fit(selected_inds); % fitness dos selecionados atualizado
         
         if graph_on
             set(graph, 'XData', Cs(:,1), 'YData', Cs(:,2));
