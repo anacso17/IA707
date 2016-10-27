@@ -1,4 +1,4 @@
- function  [ Cs, max_fit ] = ex2_main2( n_Cs, n_gen, lambda, graph_on)
+ function  [ Cs, max_fit, fit_max ] = ex2_main2( n_Cs, n_gen, lambda, graph_on)
 
     A = -1;
     B = 2;
@@ -38,6 +38,7 @@
             end
         end
         
+        % lambida*n_gen avaliações de fitness
         % junta o fitness de pais e filhos
         fit(n_Cs+1:end) = ex2_evaluateFitness(new_Cs);
         % junta pais e filhos

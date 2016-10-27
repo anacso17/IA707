@@ -1,4 +1,4 @@
-function [ max_fit ] = ex2_evolucaoDiferencial( NP, CR, F, range, n_iter, graph_on ) 
+function [ max_fit, fit_max ] = ex2_evolucaoDiferencial( NP, CR, F, range, n_iter, graph_on ) 
 
     D = size(range,1);
 
@@ -30,6 +30,7 @@ function [ max_fit ] = ex2_evolucaoDiferencial( NP, CR, F, range, n_iter, graph_
             u(i,:) = ex2_crossoverED(x(i,:), vi, CR);
         end
         
+        % NP*n_gen avaliações de fitness
         fitu = ex2_evaluateFitness(u);
         for i = 1:NP
             if fitu(i) > fitx(i) && ex2_factivel(u(i,:), range)
