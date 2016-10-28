@@ -1,31 +1,35 @@
 % PARA TESTES
 
-function [ ] = calculaDesenpenhoMedio ( n_Cs, n_gen, n_filhos, n_reps)
+function [ ] = calculaDesenpenhoMedio ( n_gen, n_reps)
 
-sum_fit = [0 0];
+%sum_fit = [0 0];
 
 sumPA = 0;
 sumPB = 0;
 sumPC = 0;
 
+n_filhosA = 100;
+n_filhosB = 70;
+NP = 20;
+
 for i = 1:n_reps
     fprintf('\n\nRepetição %d\n', i);
     
     fprintf('Executando estratégia evolutiva (?,?)... ');
-    tic;[~, max_fitA, fit_maxA] = ex2_main(n_Cs,n_gen,n_filhos,0);toc;
+    tic;[~, max_fitA, fit_maxA] = ex2_main(10,n_gen,n_filhosA,0);toc;
     
     fprintf('Executando estratégia evolutiva (?+?)... ');
-    tic;[~, max_fitB, fit_maxB] = ex2_main2(n_Cs,n_gen,n_filhos,0);toc;
+    tic;[~, max_fitB, fit_maxB] = ex2_main2(40,n_gen,n_filhosB,0);toc;
     
     fprintf('Executando evolução diferencial... ');
-    tic;[~, fit_maxC] = ex2_evolucaoDiferencial(n_filhos, 0.9, 0.5,[-1 2; -1 2], n_gen, 0);toc;
+    tic;[~, fit_maxC] = ex2_evolucaoDiferencial(NP, 0.9, 0.5,[-1 2; -1 2], n_gen, 0);toc;
     
     if i<=5
         figure(100+i);
-        plot(fit_maxA, 'r');
+        plot(n_filhosA*(1:size(fit_maxA,1)), fit_maxA, 'r');
         hold on;
-        plot(fit_maxB, 'b');
-        plot(fit_maxC, 'k');
+        plot(n_filhosB*(1:size(fit_maxB,1)), fit_maxB, 'b');
+        plot((NP+1)*(1:size(fit_maxC,1)), fit_maxC, 'k');
         hold off;
     end
     
@@ -48,9 +52,9 @@ end
 %avg_fit = sum_fit./n_reps;
 %fprintf('\navg_fitA: %f | avg_fitB: %f\n', avg_fit(1), avg_fit(2));
 
-fprintf('\nEE (?,?) encontra o máximo na média em  %f gerações\n', sumPA/n_reps);
-fprintf('EE (?+?) encontra o máximo na média em  %f gerações\n', sumPB/n_reps);
-fprintf('Evolução Diferencial encontra o máximo na média em  %f gerações\n', sumPC/n_reps);
+fprintf('\nEE (?,?) encontra o máximo na média em  %f verificações\n', n_filhosA*sumPA/n_reps);
+fprintf('EE (?+?) encontra o máximo na média em  %f verificações\n', n_filhosB*sumPB/n_reps);
+fprintf('Evolução Diferencial encontra o máximo na média em  %f verificações\n', (NP+1)*sumPC/n_reps);
 
 % n_Cs = 200;
 % n_gens = 200;
