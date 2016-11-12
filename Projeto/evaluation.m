@@ -5,7 +5,7 @@
 % and returns the recall, the precision and the F-measure of the system.
 %
 % y : array of found onsets
-% d : groundtruth array
+% d : ground truth array
 % h : number of correct results
 % r : h / lenght(d)
 % p : h / lenght(y)
