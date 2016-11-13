@@ -7,8 +7,8 @@ function [ max_fit, fit_max, best_filt ] = mainED( NP, CR, F, n_iter, n_filters,
     fit_max = zeros(n_iter, 1);
     fit_avg = zeros(n_iter, 1);
     
-    x = 0.25*rand(NP,D);
-    x = sort(x,2,'ascend')
+    x = 0.5*rand(NP,D);
+    x = sort(x,2,'ascend');
 
     for i = 1:NP
         fitx(i) = fitness('C:\Users\AnaClara\Documents\MATLAB\EG507\Projeto\Base',x(i,:));

@@ -1,18 +1,15 @@
-% FILT is the row vector with the cut frequencies of the band pass filters
-% The frequencies must be in fractions of the sampling frequency 
-
 function [ fit ] = fitness(directory,FILT)
     
-    down_factor = 1;%5;
+%     FILT = sort(FILT,2,'ascend');
+    down_factor = 2;
     cut_freq = 6*1000;
 
     songs = dir([directory '/*.flac']);
     groundtruth = dir([directory '/*.txt']);
     f0 = [];
 
-% for each song, finds the onsets
 %   for i = 1 : length(songs)
-  for i = 1:5
+  for i = 1:6
     ref = load([directory  '/'  groundtruth(i).name]);
     
     [audio,fs] = audioread([directory  '/'  songs(i).name]);  
@@ -21,7 +18,8 @@ function [ fit ] = fitness(directory,FILT)
     
     audio = downsample(audio, down_factor);
     fs = fs/down_factor;
-
+    FILT = [40/fs FILT];
+    
     onsets_signal = onset_detection(audio,FILT*down_factor);
     
 %     figure
@@ -32,7 +30,6 @@ function [ fit ] = fitness(directory,FILT)
     
     [peaks,marks] = findpeaks(onsets_signal,'minpeakheight',5*10^-7);
     
-%     % plots the marks and the groundtruth
 %     hold on
 %     plot((marks-1)*1000/fs,peaks,'ro')
 %     t = 1 : length(ref);
@@ -40,12 +37,9 @@ function [ fit ] = fitness(directory,FILT)
 %     stem(ref,3*10^-5*ones(size(ref)),'g^')
 %     hold off
     
-% compare with the groundtruth (reference)
     [r(i),p(i),f(i)] = evaluation((marks-1)*1000/fs, ref);
     f0 = [f0 f(i)];
   end
-
-% prints the results and calculate the mean (fit)
 %   r
 %   p
 %   f

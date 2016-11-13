@@ -5,6 +5,10 @@ function [ u ] = EDfix( u )
         if u(i) < 0
             u(i) = -1*u(i);
         end
+        
+        if u(i)> 0.5
+            u(i) = u(i)/10;
+        end
     end
 end
 
