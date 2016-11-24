@@ -1,22 +1,38 @@
-function result = onset_detection(data,FILT)
+function result = onset_detection_v2(data,FILT)
 % FILT
 n = size(FILT, 2);
+odd = 1:2:n;
+even = 2:2:n;
 
-for i = 1 : n-1                     % creates filters and performs operation
-    fmin = FILT(i);
-    fmax = FILT(i+1);
+%verifica validade e corrige filtro
+n = size(FILT,2);
+odd = 1:2:n;
+even = 2:2:n;
+for k = 1:n/2
+    if FILT(odd(k)) > FILT(even(k))
+        aux = FILT(odd(k));
+        FILT(odd(k)) = FILT(even(k));
+        FILT(even(k)) = aux;
+    end
+end
+
+for i = 1 : n/2                 % creates filters and performs operation
     result = 0;
     
-    [B, A] = butter(4,[fmin fmax]);
+    [B, A] = butter(4,FILT([odd(i) even(i)]));
     band = filter(B,A,data);        % butterworth bandpass filter
     band = filter(B,A,band);        % butterworth bandpass filter
     band = filter(B,A,band);        % butterworth bandpass filter
     band = filter(B,A,band);        % butterworth bandpass filter
     band  = abs(band);              % full wave rectifier
     
-    [B, A] = butter(4, 0.000907/2,'low');
+    [B, A] = butter(4, 0.000907,'low');
     band = filter(B,A,band);        % butterworth lowpass filter
+%     figure
+%     plot(band)
     band = diff(band);              % first order difference
+%     figure
+%     plot(band)
     band(band<0) = 0;               % half wave rectifier
     
     if size(result,2) < size(band,2)
@@ -26,6 +42,7 @@ for i = 1 : n-1                     % creates filters and performs operation
     end
     result = result + band;     % sum
 end
-
+%     figure
+%     plot(result)
 end
 

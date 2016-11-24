@@ -1,21 +1,21 @@
-function [ max_fit, fit_max, best_filt ] = mainED( NP, CR, F, n_iter, n_filters, graph_on ) 
+function [ max_fit, fit_max, best_filt ] = mainED_v2( NP, CR, F, n_iter, n_filters, graph_on, m, div,sub ) 
 
     % number of cut frequencies
-    D = n_filters+2;
+    D = 2*n_filters;
 
     % valores para montagem do gráfico de distância mínima e média
     fit_max = zeros(n_iter, 1);
     fit_avg = zeros(n_iter, 1);
     
-    x = 0.5*rand(NP,D-1);
+    x = 0.5*rand(NP,D);
     x = sort(x,2,'ascend');
     x = [x 10.^-(6+2*rand(NP,1))];
 
     for i = 1:NP
-        fitx(i) = fitness('C:\Users\AnaClara\Documents\MATLAB\EG507\Projeto\data_set',x(i,:));
+        fitx(i) = fitness_v5('C:\Users\AnaClara\Documents\MATLAB\EG507\Projeto\data_set_3',x(i,:),0,m);
     end
     
-    u = zeros(NP,D);
+    u = zeros(NP,D+1);
     
     for n_i = 1:n_iter
         for i = 1:NP
@@ -30,14 +30,25 @@ function [ max_fit, fit_max, best_filt ] = mainED( NP, CR, F, n_iter, n_filters,
         
         % NP*n_gen avaliações de fitness
         for i = 1:NP
-            fitu(i) = fitness('C:\Users\AnaClara\Documents\MATLAB\EG507\Projeto\data_set',u(i,:));
+            fitu(i) = fitness_v5('C:\Users\AnaClara\Documents\MATLAB\EG507\Projeto\data_set_3',u(i,:),0,m);
             if fitu(i) > fitx(i) 
                 x(i,:) = u(i,:);
                 fitx(i) = fitu(i);
             end
         end
         
-%         x
+        if mod(n_i,div) == 0
+            aux = sortrows([ fitx' x ],-1);
+            aux((NP-sub+1):NP,2:D+1) = 0.5*rand(sub,D);
+            aux((NP-sub+1):NP,D+2) = 10.^-(6+2*rand(sub,1));
+            for j = (NP-sub+1):NP
+                aux(j,1) = fitness_v5('C:\Users\AnaClara\Documents\MATLAB\EG507\Projeto\data_set_3',aux(j,2:D+2),0,m);
+            end
+            x = aux(:,2:D+2);
+            x(:,1:end-1) = sort(x(:,1:end-1),2,'ascend');
+            fitx = aux(:,1)';
+        end
+
         % dados para o grafico
         fit_max(n_i) = max(fitx);
         fit_avg(n_i) = mean(fitx);
