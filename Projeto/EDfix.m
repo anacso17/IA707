@@ -7,8 +7,8 @@ for i = 1:s
         u(i) = -1*u(i); 
     end
     
-    if u(i) > 0.5
-        u(i) = mod(u(i), 0.5); 
+    if u(i) > 1
+        u(i) = mod(u(i), 1); 
         if u(i) == 0 
             u(i) = 0.1; 
         end
