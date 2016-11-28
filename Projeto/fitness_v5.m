@@ -50,7 +50,7 @@ function [ fit ] = fitness_v5(directory,FILT,flag,m)
             fs = fs/down_factor;
 %             FILT = [40/fs FILT];
 
-            onsets_signal = onset_detection(audio,FILT*down_factor);
+            onsets_signal = onset_detection_v2(audio,FILT*down_factor);
 
             if max(onsets_signal) >= minpeakheight
                 [peaks,marks] = findpeaks(onsets_signal,'minpeakheight',minpeakheight);
