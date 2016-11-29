@@ -1,5 +1,4 @@
 function [ max_fit, fit_max, best_filt ] = mainED_v2( NP, CR, F, n_iter, n_filters, graph_on, m, div,sub ) 
-
     % number of cut frequencies
     D = 2*n_filters;
 
@@ -12,7 +11,7 @@ function [ max_fit, fit_max, best_filt ] = mainED_v2( NP, CR, F, n_iter, n_filte
     x = [x 10.^-(6+2*rand(NP,1))];
 
     for i = 1:NP
-        fitx(i) = fitness_v5('C:\Users\AnaClara\Documents\MATLAB\EG507\Projeto\data_set_3',x(i,:),0,m);
+        fitx(i) = fitness_v5(path,x(i,:),0,m);
     end
     
     u = zeros(NP,D+1);
@@ -30,7 +29,7 @@ function [ max_fit, fit_max, best_filt ] = mainED_v2( NP, CR, F, n_iter, n_filte
         
         % NP*n_gen avaliações de fitness
         for i = 1:NP
-            fitu(i) = fitness_v5('C:\Users\AnaClara\Documents\MATLAB\EG507\Projeto\data_set_3',u(i,:),0,m);
+            fitu(i) = fitness_v5(path,u(i,:),0,m);
             if fitu(i) > fitx(i) 
                 x(i,:) = u(i,:);
                 fitx(i) = fitu(i);
@@ -42,7 +41,7 @@ function [ max_fit, fit_max, best_filt ] = mainED_v2( NP, CR, F, n_iter, n_filte
             aux((NP-sub+1):NP,2:D+1) = 0.5*rand(sub,D);
             aux((NP-sub+1):NP,D+2) = 10.^-(6+2*rand(sub,1));
             for j = (NP-sub+1):NP
-                aux(j,1) = fitness_v5('C:\Users\AnaClara\Documents\MATLAB\EG507\Projeto\data_set_3',aux(j,2:D+2),0,m);
+                aux(j,1) = fitness_v5(path,aux(j,2:D+2),0,m);
             end
             x = aux(:,2:D+2);
             x(:,1:end-1) = sort(x(:,1:end-1),2,'ascend');
