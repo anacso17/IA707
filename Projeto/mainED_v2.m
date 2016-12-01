@@ -1,4 +1,5 @@
 function [ max_fit, fit_max, best_filt ] = mainED_v2( NP, CR, F, n_iter, n_filters, graph_on, m, div,sub ) 
+    path = 'C:\tempTrab\Base';      %MUDAR AQUI
     % number of cut frequencies
     D = 2*n_filters;
 
