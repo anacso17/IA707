@@ -13,10 +13,10 @@ pathTeste = 'C:\tempTrab\teste';
 % 
 % diary off
 
-diary results_ED_6filt
+diary results_AG_6filt
 
 for i=1:1
-    fprintf('Execucao %i - ED, 6 filtros\n', i);
+    fprintf('Execucao %i - AG, 6 filtros\n', i);
             
     tic;[fit, ~, best_filt] = AGmain(10, 100, 6, 1, 8);toc;
     [fit2 ] = fitness_v5(pathTeste, best_filt, 1, 25);

@@ -18,7 +18,7 @@ function [ winners, fit ] = selectionTournament( chroms, fitness, n_winners, ind
     n_chroms = size(chroms, 1);     % numero de cromossomos
     s = size(chroms, 2);            % tamanho do cromossomo
     winners = zeros(n_winners, s);
-    fit = zeros(n_winners, s);
+    fit = zeros(n_winners, 1);
 
     for i = 1:n_winners
         rand_pos = randi(n_chroms,inds_per_tour,1);  % pega inds_per_tour posições randômicas          
@@ -26,7 +26,7 @@ function [ winners, fit ] = selectionTournament( chroms, fitness, n_winners, ind
         % seleciona o melhor individuo
         [~, pos_max] = max(fitness(rand_pos));  
         winners(i,:) = chroms(rand_pos(pos_max),:);
-        fit(i,:) = fitness(rand_pos(pox_max));
+        fit(i) = fitness(rand_pos(pos_max));
     end
 end
 

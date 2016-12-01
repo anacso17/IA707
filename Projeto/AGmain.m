@@ -40,15 +40,16 @@ function [ max_fit, fit_max, best_filt ] = AGmain( n_Cs , n_gen, n_filters, grap
         end
         
         all_Cs = [Cs; new_Cs];
-        all_fit = [fit, new_fit];
+        all_fit = [fit; new_fit];
         
         % guarda o melhor individuo
         [fit_max(n_i), pos] = max(all_fit);
         best_C = all_Cs(pos,:);
         
         % faz a seleção incluindo pais e filhos
-        [Cs(1:n_Cs-1,:), fit] = selectionTournament(all_Cs, all_fit, n_Cs-1, tourn);
+        [Cs, fit] = selectionTournament(all_Cs, all_fit, n_Cs-1, tourn);
         Cs(n_Cs, :) = best_C;
+        fit(n_Cs) = fit_max(n_i);
         
 %         for j = 1:size(Cs,1)
 %             fit(j) = fitness_v5(path,Cs(j,:),0,m);
