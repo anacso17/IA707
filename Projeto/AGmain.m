@@ -3,7 +3,7 @@ function [ max_fit, fit_max, best_filt ] = AGmain( n_Cs , n_gen, n_filters, grap
  
     n_sons = 2*n_Cs;       % numero de filhos  
     mut_rate = 0.1;        % taxa de mutação
-    tourn = 10;             % numero de integrantes do torneio
+    tourn = 2;             % numero de integrantes do torneio
     
     % numero de frequencias de corte
     s = 2*n_filters;
@@ -31,7 +31,7 @@ function [ max_fit, fit_max, best_filt ] = AGmain( n_Cs , n_gen, n_filters, grap
         % faz a seleção incluindo pais e filhos
         all_Cs = [Cs; new_Cs];
         for j = 1:size(all_Cs,1)
-            fit(j) = fitness_v5('C:\Users\AnaClara\Documents\MATLAB\EG507\Projeto\data_set_test\4',all_Cs(j,:),0,m);
+            fit(j) = fitness_v5('C:\Users\AnaClara\Documents\MATLAB\EG507\Projeto\data_set_ap',all_Cs(j,:),0,m);
         end
         Cs = selectionTournament(all_Cs, fit, n_Cs-1, tourn);
         
@@ -39,6 +39,10 @@ function [ max_fit, fit_max, best_filt ] = AGmain( n_Cs , n_gen, n_filters, grap
         [fit_max(n_i), pos] = max(fit);
         best_C = all_Cs(pos,:);
         Cs(n_Cs, :) = best_C;
+        
+        for j = 1:size(Cs,1)
+            fit(j) = fitness_v5('C:\Users\AnaClara\Documents\MATLAB\EG507\Projeto\data_set_ap',all_Cs(j,:),0,m);
+        end
 
         % dados para o grafico
         fit_avg(n_i) = mean(fit);
