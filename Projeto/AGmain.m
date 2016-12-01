@@ -41,7 +41,7 @@ function [ max_fit, fit_max, best_filt ] = AGmain( n_Cs , n_gen, n_filters, grap
         Cs(n_Cs, :) = best_C;
         
         for j = 1:size(Cs,1)
-            fit(j) = fitness_v5('C:\Users\AnaClara\Documents\MATLAB\EG507\Projeto\data_set_ap',all_Cs(j,:),0,m);
+            fit(j) = fitness_v5('C:\Users\AnaClara\Documents\MATLAB\EG507\Projeto\data_set_ap',Cs(j,:),0,m);
         end
 
         % dados para o grafico
